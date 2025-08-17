@@ -1,0 +1,33 @@
+# Laravel & PHP
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/storage/app/public
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/logs
+/bootstrap/cache/*.php
+
+# Laravel environment files
+.env
+.env.local
+.env.*.local
+.phpunit.result.cache
+
+# Composer & NPM lockfiles (keep if you prefer reproducible builds)
+composer.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# IDEs & OS junk
+/.idea
+/.vscode
+.DS_Store
+Thumbs.db
+
+# Docker
+/dbdata
+docker-compose.override.yml
