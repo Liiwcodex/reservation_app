@@ -1,28 +1,36 @@
 SHELL := /bin/bash
 
-COMPOSE := ./scripts/compose.sh
+.PHONY: init up down build logs sh-php sh-node composer artisan npm pnpm
 
-init: ## Create Laravel app & seed starter code
-	$(COMPOSE) up -d db redis
-	$(COMPOSE) build app web
-	$(COMPOSE) run --rm app bash -lc "chmod +x /scripts/init.sh && /scripts/init.sh"
+init:
+	@./scripts/init.sh
 
-up: ## Start all services
-	$(COMPOSE) up -d
+up:
+	docker compose up -d
 
-down: ## Stop services
-	$(COMPOSE) down
+down:
+	docker compose down
 
-logs: ## Tail app logs
-	$(COMPOSE) logs -f app web
+build:
+	docker compose build
 
-migrate: ## Run DB migrations (inside container)
-	$(COMPOSE) exec app php artisan migrate --seed
+logs:
+	docker compose logs -f --tail=200
 
-tinker: ## Open Laravel tinker
-	$(COMPOSE) exec app php artisan tinker
+sh-php:
+	docker compose exec php bash
 
-test: ## Run tests
-	$(COMPOSE) exec app php artisan test
+sh-node:
+	docker compose exec node sh
 
-.PHONY: init up down logs migrate tinker test
+composer:
+	docker compose run --rm php composer $(cmd)
+
+artisan:
+	docker compose run --rm php php artisan $(cmd)
+
+npm:
+	docker compose run --rm node npm $(cmd)
+
+pnpm:
+	docker compose run --rm node sh -lc "corepack enable && pnpm $(cmd)"
